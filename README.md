@@ -1,6 +1,8 @@
 # Algorithm-Theory-and-Implementation
 对部分算法的简单理论解释和Python代码实现
 
+[TOC]
+
 ## 数学
 
 ### pow(x, n)
@@ -65,4 +67,5 @@ class Solution:
         return res
 ```
 
-## 开平方
+### 开平方
+
