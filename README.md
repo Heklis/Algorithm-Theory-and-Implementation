@@ -67,5 +67,14 @@ class Solution:
         return res
 ```
 
+### 最大公约数
+
+辗转相除法即欧几里得算法，计算公式：gcd(a, b) = gcd(b, a mod b)。
+
+```python
+def gcd(a, b):
+    return gcd(b, a % b) if b != 0 else a
+```
+
 ### 开平方
 
