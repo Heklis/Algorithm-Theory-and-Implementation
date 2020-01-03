@@ -78,3 +78,24 @@ def gcd(a, b):
 
 ### 开平方
 
+
+
+## 排序
+
+### 简单选择排序
+
+应该是最自然的思路。选择排序的思想是，从全部序列中选取最小的，与第0个元素交换，然后从第1个元素往后找出最小的，与第一个元素交换，再从第2个元素往后选取最小的，与第2个元素交换，直到选取最后一个元素。
+
+```python
+def selection_sort(a):
+    n = len(a)
+    for i in range(n):
+        min_idx = i
+        # 从后续数组中找到最小元素
+        for j in range(i + 1, n):
+            if a[j] < a[min_idx]:
+                min_idx = j
+        # 将后续数组中的最小元素和前一个元素交换
+        a[i], a[min_idx] = a[min_idx], a[i]
+```
+
