@@ -136,3 +136,22 @@ def insertion_sort(a):
         a[j+1] = tmp
 ```
 
+### 希尔排序
+
+简单插入排序的一种改进。将增量从 n/2 折半递减到1，针对每个增量进行一次简单插入排序。在增量递减的过程中，数组逐渐有序，能够有效减少元素的移动次数。
+
+```python
+def shell_sort(a):
+    n = len(a)
+    step = n // 2
+    while step > 0:
+        for i in range(step, n):
+            tmp = a[i]
+            j = i - step
+            while j >= 0 and a[j] > tmp:
+                a[j+step] = a[j]
+                j -= step
+            a[j+step] = tmp
+        step //= 2
+```
+
