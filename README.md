@@ -155,3 +155,33 @@ def shell_sort(a):
         step //= 2
 ```
 
+### 归并排序
+
+分为两个部分：分组和合并，第一步是递归地二分待排序数组，直至子数组中只有一个元素再返回；第二步是由下至上不断地合并有序的子数组。
+
+```python
+def merge(left, right):
+    res = []
+    while left and right:
+        if left[0] <= right[0]:
+            res.append(left.pop(0))
+        else:
+            res.append(right.pop(0))
+    if left:
+        res += left
+    if right:
+        res += right
+    return res
+
+
+def merge_sort(a):
+    if len(a) == 1:
+        return a
+    mid = len(a) // 2
+    # 分组：递归地排序数组的左边和右边部分
+    left = merge_sort(a[:mid])
+    right = merge_sort(a[mid:])
+    # 合并左右两个有序数组为一个有序数组
+    return merge(left, right)
+```
+
