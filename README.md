@@ -194,3 +194,80 @@ def merge_sort(a):
 2.定义最小run长度，短于此的run通过插入排序合并为长度高于最小run长度；
 
 3.反复归并一些相邻run，过程中需要**避免归并长度相差很大的run**，直至整个排序完成；
+
+### 快速排序
+
+选定第一个元素为 pivot，然后把待排序数组中小于 pivot 的数移动到 pivot 左边，把待排序数组中大于 pivot 的数移动到 pivot 右边，这样就分成了两组，再分别进行快排。
+
+最好情况：当 pivot 总是待排序数组的中位数时，类似归并排序，nlogn。
+
+最坏情况：待排序数组有序（选择第一个元素为 pivot），退化为选择排序。
+
+```python
+def quick_sort(a, left, right):
+    if left >= right:
+        return
+    pivot = a[left]
+    low, high = left, right
+    while left < right:
+        while left < right and a[right] >= pivot:
+            right -= 1
+        a[left] = a[right]
+        while left < right and a[left] <= pivot:
+            left += 1
+        a[right] = a[left]
+    a[left] = pivot
+    quick_sort(a, low, left - 1)
+    quick_sort(a, left + 1, high)
+```
+
+非递归：用栈模拟实现递归。
+
+```python
+def partition(a, left, right):
+    pivot = a[left]
+    low, high = left, right
+    while left < right:
+        while left < right and a[right] >= pivot:
+            right -= 1
+        a[left] = a[right]
+        while left < right and a[left] <= pivot:
+            left += 1
+        a[right] = a[left]
+    a[left] = pivot
+    return left
+
+
+def quick_sort_nonrec(a):
+    if len(a) <= 1:
+        return
+    stack = []
+    stack.append(len(a) - 1)
+    stack.append(0)
+    while stack:
+        left = stack.pop()
+        right = stack.pop()
+        idx = partition(a, left, right)
+        if idx > left + 1:
+            stack.append(idx - 1)
+            stack.append(left)
+        if idx < right - 1:
+            stack.append(right)
+            stack.append(idx + 1)
+```
+
+#### pivot 选择
+
+pivot 的选择策略影响算法的效率。四种策略：选第一个、选最后一个、随机选、三数取中。
+
+选第一个和选最后一个类似，在待排序数组有序时，不能有效地分组，退化成选择排序，时间复杂度 n^2^。
+
+随机选择是可以的，但是要生成随机数，代价比较高。
+
+三数取中：因为最理想的 pivot 是数组的中位数，因此我们从数组的头尾和中间元素三个数中选择中位数，能够尽可能的靠近。方法：对这三个位置进行一次冒泡排序，然后把头元素和中间元素交换。
+
+#### 和归并排序的区别与联系
+
+联系：都使用了分治法
+
+区别：分组和合并的策略不同
