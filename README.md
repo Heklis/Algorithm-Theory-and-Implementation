@@ -293,3 +293,45 @@ def counting_sort(a, k=100):
 
 如果只有三种元素，那就是荷兰国旗问题。
 
+### 堆排序
+
+ 大顶堆：一棵完全二叉树，它的根节点大于两个子节点，同时根节点的左右子树也分别是一个大顶堆。 
+
+将完全二叉树用数组存储，第i个节点的父节点序号为(i-1)/2，左子节点序号为2i+1，右子节点序号为2(i+1)。 
+
+堆排序分两个步骤，首先是构造大顶堆，然后是不断从大顶堆中将堆顶交换到最后，将剩余元素再重新调整为大顶堆。 
+
+构建大顶堆的过程即从后向前遍历所有非叶子节点，若它小于左右子节点，则与左右子节点中最大的交换，然后递归地对原最大节点做同样的操作。 
+
+```python
+def update_heap(a, i, size):
+    lchild = 2 * i + 1
+    rchild =  2 * i + 2
+    maxi = i
+    if i < size // 2:
+        if lchild < size and a[lchild] > a[maxi]:
+            maxi = lchild
+        if rchild < size and a[rchild] > a[maxi]:
+            maxi = rchild
+        if maxi != i:
+            a[maxi], a[i] = a[i], a[maxi]
+            update_heap(a, maxi, size)
+
+
+def heapify(a, size):
+    for i in reversed(range(size // 2)):
+        update_heap(a, i, size)
+
+
+def heap_sort(a):
+    size = len(a)
+    # 构造大顶堆
+    heapify(a, size)
+    # 排序过程，每次取堆顶
+    for i in reversed(range(size)):
+        # 将根节点交换到待排序数组的最后
+        a[i], a[0] = a[0], a[i]
+        # 递归更新根节点，将 a[:i] 调整为大顶堆
+        update_heap(a, 0, i)
+```
+
